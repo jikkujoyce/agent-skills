@@ -1,63 +1,86 @@
-# Guided Reading — an agent skill for actually finishing documents
+# agent-skills
 
-A skill for AI agents (Claude Code, claude.ai, OpenCode, Cursor, Codex, Copilot, and any other host that supports the [Agent Skills spec](https://agentskills.io)) that turns any document into an interactive, guided reading session.
-
-Long documents — especially AI-generated ones — are easy to skim and hard to absorb. Instead of handing you a summary, this skill has the agent read the document *with* you: in purpose-driven chunks, with one Socratic question at a time, so you do the thinking and leave actually knowing what the document said.
-
-## What it does
-
-1. **Orients first** — asks what you want *out of* the document, then triages: sections that serve your purpose get covered carefully, the rest gets fast-forwarded.
-2. **Reads in chunks** — one idea-cluster at a time, each followed by a single engagement move: predict what comes next, explain an idea back in your own words, connect it to your own work, or challenge the argument.
-3. **Flags when your case diverges** — if your situation matches an exception or edge case in the document rather than its headline finding, the skill says so explicitly.
-4. **Closes the loop** — *you* summarize the document at the end; the agent fills the real gaps.
-
-### Three passes
-
-- **Pass 1 (default):** compressed, purpose-triaged first read — the gist plus what matters to you.
-- **Pass 2 (on request):** full walkthrough with smaller chunks, deeper questioning, and a structured recap of findings, metrics, and caveats.
-- **Pass 3 (optional):** you read the source yourself and write a summary; the agent validates it against the document.
+Agent skills I use day to day — each one a single `SKILL.md` that encodes a judgment call I'd otherwise have to re-explain in every session.
 
 ## Install
 
-With the GitHub CLI (v2.90.0+):
+Every skill installs the same way. Pick one and set it once:
 
-```sh
-# For Claude Code, available in all projects
-gh skill install jikkujoyce/agent-skills guided-reading --agent claude-code --scope user
-
-# For OpenCode
-gh skill install jikkujoyce/agent-skills guided-reading --agent opencode --scope user
-
-# Pin to a release for reproducibility
-gh skill install jikkujoyce/agent-skills guided-reading@v1.0.0 --agent claude-code --scope user
+```bash
+SKILL=pr-triage        # or: guided-reading
 ```
 
-Or with the skills CLI:
+Install it (GitHub CLI v2.90.0+, `gh skill` is in preview):
 
-```sh
-npx skills add jikkujoyce/agent-skills/guided-reading
+```bash
+gh skill install jikkujoyce/agent-skills "$SKILL" --agent claude-code --scope user
 ```
 
-For claude.ai, download this repo, zip the `skills/guided-reading` folder, and upload it under Settings → Capabilities → Skills.
+`--agent` accepts `claude-code`, `cursor`, `codex`, `github-copilot`, `gemini-cli`, `opencode`, and [many more](https://cli.github.com/manual/gh_skill_install); `--scope user` installs for every project, `--scope project` (the default) only for the current repo.
 
-## Use
+Pin a version — recommended for anything you rely on in CI:
 
-Share a document, file, or link and ask to read it:
-
-```
-guided reading: <URL/File>
+```bash
+gh skill install jikkujoyce/agent-skills "$SKILL@v1.0.0" --agent claude-code --scope user
 ```
 
+Without a version, `gh` resolves the latest tagged release, falling back to the default branch. A tag or commit SHA also works via `--pin`.
+
+Read a skill before you trust it:
+
+```bash
+gh skill preview jikkujoyce/agent-skills "$SKILL"
 ```
-Here's a report I've never managed to finish. Walk me through it.
+
+Manual install works too — copy the skill directory wherever your agent looks for skills:
+
+```bash
+git clone https://github.com/jikkujoyce/agent-skills
+cp -r agent-skills/skills/"$SKILL" ~/.claude/skills/     # or .agents/skills/ in a project
 ```
 
-The skill also triggers on phrases like "help me understand this doc", "read this with me", or mentions of trouble focusing on a document. To go deeper after a first pass, say "let's do a second pass."
+For claude.ai, zip the `skills/$SKILL` folder from that clone and upload it under Settings → Capabilities → Skills.
 
-## Why
+## Skills
 
-Built on reading-comprehension techniques with strong evidence behind them — purpose-setting, chunking, prediction, self-explanation, elaborative interrogation, and retrieval practice — and shaped by live testing on real papers. The core principle: comprehension comes from the reader's effort, not the summary's eloquence.
+| Skill | What it does |
+|---|---|
+| [`pr-triage`](skills/pr-triage) | Decides whether an inbound pull request deserves a real review, and returns a verdict plus a ready-to-post response. |
+| [`guided-reading`](skills/guided-reading) | Reads a document *with* you in interactive chunks instead of summarizing it at you. |
+
+## pr-triage
+
+Written for the position of maintaining a repo that gets more drive-by PRs than you have review hours for. The judgment it encodes is mostly about *ordering and proportion*: read the diff and form your own account of the change before you read the description, because a confident description read first frames every hunk you look at afterward — and that anchoring is how a bad change gets merged. Then spend triage effort in proportion to the effort the PR plausibly cost to produce, cite a file, line, or quote for every finding, and keep the judgment about the work rather than about whether a model was involved. It also refuses to review two things at once: hunks get grouped into concerns, and if the honest one-line summary of the PR needs an "and", the default answer is a split request with a table showing the author how to divide it. Reach for it at the moment you open a PR and feel yourself about to either merge on vibes or sink an afternoon into something that doesn't deserve one. See [`skills/pr-triage/README.md`](skills/pr-triage/README.md) for setup and usage details.
+
+## guided-reading
+
+For documents you keep meaning to finish and never do — long reports, papers, and especially the AI-generated wall of text you just asked for. The judgment it encodes is that comprehension comes from the reader's effort, not the summary's eloquence, so the skill spends its budget on making *you* articulate things rather than on explaining them to you: it asks what you want out of the document first and triages against that purpose, moves in chunks with one question at a time, and makes you summarize at the end rather than doing it for you. The most useful thing it does is notice when your own situation matches an exception or edge case in the document rather than its headline — the part a summary always buries. Reach for it when you're skimming without retaining, when you're staring at something you have to actually understand rather than merely file away, or right after an agent hands you a document too long to absorb. See [`skills/guided-reading/README.md`](skills/guided-reading/README.md) for usage details and limitations.
+
+## Repo layout
+
+```
+skills/
+  guided-reading/
+    SKILL.md
+    README.md
+  pr-triage/
+    SKILL.md
+    README.md
+    references/
+      slop-signals.md
+      response-templates.md
+CONTRIBUTING.md
+LICENSE
+```
+
+A skill directory name must match the `name` in its frontmatter — `gh skill publish` fails validation otherwise. `SKILL.md` is the whole skill: it's what `gh skill preview` prints and what the agent loads. A folder `README.md` is for humans only, and only exists where a skill needs setup, extended examples, or caveats.
+
+## Contributing
+
+Small, focused PRs — one concern each; if describing the change needs an "and", it's two PRs. Say what you changed and how you verified it, ideally with a session excerpt showing the behavior before and after. See [CONTRIBUTING.md](CONTRIBUTING.md) for the details and for `gh skill publish --dry-run` validation.
+
+New skills should earn their place. A skill is worth adding when it encodes a repeatable judgment call, not when it restates something the model already does well unprompted.
 
 ## License
 
-[MIT](./LICENSE)
+MIT — see [LICENSE](LICENSE).
