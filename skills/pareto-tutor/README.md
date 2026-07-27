@@ -26,7 +26,7 @@ On a persistent filesystem, keep both in `learning/<topic>/` and let the tutor r
 mkdir -p learning/rust && cd learning/rust
 ```
 
-In an ephemeral chat, the tutor writes both files each session and you must **download them and re-attach them next time**. This is the one failure the system can't recover from — lose `progress.json` and every interval resets. Where no code runs at all, the tutor maintains the file by hand using the fallback table in `references/spaced-repetition.md`.
+In an ephemeral chat, the tutor writes both files each session and you must **download them and re-attach them next time**. This is the one failure the system can't recover from — lose `progress.json` and every interval resets. Where no code runs at all, the tutor skips `progress.json` and keeps a fixed-interval review table inside `LEARNING_PLAN.md` instead, per the fallback in `references/spaced-repetition.md`.
 
 The scheduler is also usable directly, which is handy for checking where you stand outside a session:
 

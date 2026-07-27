@@ -14,7 +14,7 @@ Each concept carries: an **ease factor** `ef` (starts 2.5), an **interval** in d
 - **Grade < 3 (lapse):** repetitions reset to 0 and the interval resets to **1 day** — the item re-climbs the ladder. `ef` still takes the adjustment, so chronically hard items earn permanently shorter intervals.
 - **Due date** = today + interval.
 
-Worked example: "list comprehensions" reviewed on days 1 (grade 4), 2 (4), 6 (5), 17 (3) lands its next review around day 44 — five touches across six weeks instead of daily drilling, and each touch took under a minute.
+Worked example: "list comprehensions" reviewed on days 1 (grade 4), 2 (4), 6 (5), and 16 (3) lands its next review on day 41 — five touches across six weeks instead of daily drilling, and each touch took under a minute.
 
 Typical successful trajectory: `1 → 4 → 10 → 25 → 60+` days. That's the forgetting curve being beaten with about five minutes of total effort per concept.
 

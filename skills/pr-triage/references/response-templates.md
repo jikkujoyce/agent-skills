@@ -36,7 +36,7 @@ The understanding question is the load-bearing part. Make it specific to a real 
 
 ## Close (verified fabrication or farming)
 
-> Closing this. [Single clearest contradiction, stated plainly: e.g. "The description says all tests pass, but no tests exist for this path and CI was never run" / "The `retry_with_backoff` helper this calls doesn't exist in this codebase or in requests 2.31."] 
+> Closing this. [Single clearest contradiction, stated plainly: e.g. "The description says all tests pass, but no tests exist for this path and CI was never run" / "The `retry_with_backoff` helper this calls doesn't exist in this codebase or in requests 2.31."]
 >
 > [If a policy exists:] Please see [CONTRIBUTING.md] before submitting again.
 

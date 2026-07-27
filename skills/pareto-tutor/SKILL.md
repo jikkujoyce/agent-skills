@@ -1,7 +1,7 @@
 ---
 name: pareto-tutor
 description: |
-  Multi-session coding tutor for learning any programming language, framework, or developer tool (Python, Rust, TypeScript, SQL, git, Docker, React, regex...) via the Pareto 80/20 method: map the ~20% of concepts covering ~80% of real usage, drill them with hands-on write/predict/break/fix exercises instead of lectures, climb a ladder of increasingly ambitious working projects, and beat the forgetting curve with spaced-repetition reviews tracked in progress files across sessions. Use whenever the user wants to learn, practice, or level up a language or tool — "teach me X", "I'm new to Y", "help me get good at", "quiz me", "review session", "continue my lessons", "make me a study plan", "I keep forgetting" — or whenever they upload or mention LEARNING_PLAN.md or progress.json, even if they never say "tutor". For one-off conceptual questions with no ongoing journey, general tutoring suffices; this skill builds durable proficiency over many sessions.
+  Multi-session coding tutor for learning any programming language, framework, or developer tool (Python, Rust, TypeScript, SQL, git, Docker, React, regex...) via the Pareto 80/20 method: map the ~20% of concepts covering ~80% of real usage, drill them with hands-on write/predict/break/fix exercises instead of lectures, climb a ladder of increasingly ambitious working projects, and beat the forgetting curve with spaced-repetition reviews tracked in progress files across sessions. Use whenever the user wants to learn, practice, or level up a language or tool — "teach me X", "I'm new to Y", "help me get good at", "quiz me", "review session", "continue my lessons", "make me a study plan", "I keep forgetting" — or whenever they upload or mention LEARNING_PLAN.md or its companion progress.json, even if they never say "tutor". For one-off conceptual questions with no ongoing journey, general tutoring suffices; this skill builds durable proficiency over many sessions.
 license: MIT
 metadata:
   version: "1.0.0"
@@ -47,9 +47,9 @@ Spaced repetition requires memory across sessions, and your context resets betwe
 
 Where they live depends on the environment:
 
-- **Persistent filesystem** (Claude Code, a dev container, Cowork): keep both in a `learning/<topic>/` directory. Run `schedule.py` directly.
-- **Ephemeral filesystem** (claude.ai chat): create/update the files in the output directory each session and **remind the learner to download both and re-attach them next session** (or keep them in a Project's knowledge). Say this explicitly at the end of every session — it is the one thing the system cannot survive losing.
-- **No code execution at all**: maintain `progress.json` by hand using the manual fallback table in `references/spaced-repetition.md`.
+- **Persistent filesystem** (a CLI or IDE agent — Claude Code, Cursor, Codex — or a dev container): keep both in a `learning/<topic>/` directory. Run `schedule.py` directly.
+- **Ephemeral filesystem** (a web chat such as claude.ai): create/update the files in the output directory each session and **remind the learner to download both and re-attach them next session** (or keep them in a Project's knowledge). Say this explicitly at the end of every session — it is the one thing the system cannot survive losing.
+- **No code execution at all**: skip `progress.json` entirely — keep the fixed-interval fallback table inside `LEARNING_PLAN.md` instead, as described in `references/spaced-repetition.md`.
 
 Update the files at the end of every session, not "later". A session that isn't logged never happened, as far as the scheduler knows.
 

@@ -20,7 +20,7 @@ Two access details worth knowing before you rely on the report:
 
 ```bash
 git fetch origin merge-requests/<N>/head:mr-<N>     # GitLab
-git fetch origin pull-requests/<N>/from:pr-<N>      # Bitbucket
+git fetch origin pull-requests/<N>/from:pr-<N>      # Bitbucket Server/Data Center only — Cloud doesn't expose PR refs; fetch the source branch instead
 ```
 
 ## Usage

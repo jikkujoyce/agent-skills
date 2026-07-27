@@ -1,7 +1,9 @@
 ---
 name: guided-reading
-description: Turn any document into an interactive, guided reading session that builds focus, comprehension, and personal connection to the material. Use this skill whenever the user shares a document, report, article, long piece of text (including AI-generated content), or a link/URL to something they want to read, and wants to read, understand, digest, absorb, or "get through" it — especially if they mention trouble focusing, feeling disconnected, skimming without retaining, or wanting help actually reading something rather than just receiving a summary. Also use it when the user asks Claude to "walk me through", "read this with me", "help me understand this doc", or when Claude has just produced a long document and the user wants help absorbing it.
+description: Turn any document into an interactive, guided reading session that builds focus, comprehension, and personal connection to the material. Use this skill whenever the user shares a document, report, article, long piece of text (including AI-generated content), or a link/URL to something they want to read, and wants to read, understand, digest, absorb, or "get through" it — especially if they mention trouble focusing, feeling disconnected, skimming without retaining, or wanting help actually reading something rather than just receiving a summary. Also use it when the user asks the agent to "walk me through", "read this with me", "help me understand this doc", or when a long document was just generated in the conversation and the user wants help absorbing it.
 license: MIT
+metadata:
+  version: "1.0.0"
 ---
 
 # Guided Reading
@@ -16,7 +18,7 @@ Guided reading works in up to three passes, echoing the classic three-pass metho
 
 - **First pass (default)**: compressed and purpose-triaged. Cover only what serves the user's stated purpose — typically 4–7 chunks even for a long document — with one engagement move per chunk. The goal is the gist plus the parts that matter to *them*. At the end, note what was skipped and offer a second pass.
 - **Second pass (on request)**: a fuller walkthrough. More and smaller chunks, covering sections skipped in pass one; up to two or three engagement moves per chunk where the material rewards it (e.g., a why-probe following an explain-back). The closing is more elaborate here: after the user summarizes back, provide a structured recap of the document's findings, key numbers/metrics, and caveats, so they leave with a reference-quality picture.
-- **Third pass (optional, user-led)**: the user reads or skims the actual document themselves, then writes their own summary. Claude's job flips to validator: cross-check their summary against the source, confirm what they got right, correct distortions, and point out important things they missed. Offer this at the end of a second pass but never push it — many sessions rightly end at pass one or two.
+- **Third pass (optional, user-led)**: the user reads or skims the actual document themselves, then writes their own summary. Your job flips to validator: cross-check their summary against the source, confirm what they got right, correct distortions, and point out important things they missed. Offer this at the end of a second pass but never push it — many sessions rightly end at pass one or two.
 
 ## The session flow
 
@@ -37,7 +39,7 @@ For each chunk:
 
 ### 3. Close the loop
 
-At the end, flip the summary: **ask the user to say what the document said**, in two or three sentences, as if telling a colleague. Then fill any real gaps they left — briefly on a first pass; on a second pass, follow with the structured recap of findings, metrics, and caveats. Finish by connecting back to the purpose they stated at the start: did the document deliver what they wanted? Anything they should do next? Then offer the next pass, framed as optional: a second pass for full coverage, or (after a second pass) a third pass where they read the source themselves and Claude validates their summary.
+At the end, flip the summary: **ask the user to say what the document said**, in two or three sentences, as if telling a colleague. Then fill any real gaps they left — briefly on a first pass; on a second pass, follow with the structured recap of findings, metrics, and caveats. Finish by connecting back to the purpose they stated at the start: did the document deliver what they wanted? Anything they should do next? Then offer the next pass, framed as optional: a second pass for full coverage, or (after a second pass) a third pass where they read the source themselves and you validate their summary.
 
 ## The engagement menu
 
@@ -66,7 +68,7 @@ Keep every prompt short and conversational — one line, no bullet lists of ques
 
 - **Long documents (10+ chunks)**: after orienting, propose a triage — walk through the sections that serve their purpose carefully, and fast-forward through the rest with one-line waypoints. Cover everything only if they ask.
 - **Technical material**: chunk smaller, lean on explain-back and why-probes, and check for load ("solid, or want another pass at that one?") before moving on.
-- **Documents Claude just generated in this conversation**: same flow, but skip re-presenting text they can already see — reference sections by name and go straight to the engagement moves.
+- **Documents you just generated in this conversation**: same flow, but skip re-presenting text they can already see — reference sections by name and go straight to the engagement moves.
 - **Document provided as a link/URL**: fetch it before orienting, using whatever the environment offers — a web-fetch tool if available, otherwise shell tools (e.g., `curl`) plus text extraction. For PDF links (arXiv etc.), prefer an HTML version of the same document when one exists (e.g., the arXiv HTML rendering) or download the PDF and extract its text. If the fetch fails or the page is paywalled, say so and ask the user to paste the text instead.
 - **No document attached yet**: if the user asks for guided reading but hasn't shared text or a link, ask for either before starting.
 

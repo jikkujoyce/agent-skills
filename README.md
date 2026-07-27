@@ -1,6 +1,6 @@
 # agent-skills
 
-Agent skills I use day to day — each one a single `SKILL.md` that encodes a judgment call I'd otherwise have to re-explain in every session.
+Agent skills I use day to day — each one built around a `SKILL.md` that encodes a judgment call I'd otherwise have to re-explain in every session.
 
 ## Install
 
@@ -21,7 +21,7 @@ gh skill install jikkujoyce/agent-skills "$SKILL" --agent claude-code --scope us
 Pin a version — recommended for anything you rely on in CI:
 
 ```bash
-gh skill install jikkujoyce/agent-skills "$SKILL@v1.0.0" --agent claude-code --scope user
+gh skill install jikkujoyce/agent-skills "$SKILL@v1.0.2" --agent claude-code --scope user
 ```
 
 Without a version, `gh` resolves the latest tagged release, falling back to the default branch. A tag or commit SHA also works via `--pin`.
@@ -52,7 +52,7 @@ For claude.ai, zip the `skills/$SKILL` folder from that clone and upload it unde
 
 ## pr-triage
 
-Written for the position of maintaining a repo that gets more drive-by PRs than you have review hours for. The judgment it encodes is mostly about *ordering and proportion*: read the diff and form your own account of the change before you read the description, because a confident description read first frames every hunk you look at afterward — and that anchoring is how a bad change gets merged. Then spend triage effort in proportion to the effort the PR plausibly cost to produce, cite a file, line, or quote for every finding, and keep the judgment about the work rather than about whether a model was involved. It also refuses to review two things at once: hunks get grouped into concerns, and if the honest one-line summary of the PR needs an "and", the default answer is a split request with a table showing the author how to divide it. Reach for it at the moment you open a PR and feel yourself about to either merge on vibes or sink an afternoon into something that doesn't deserve one. See [`skills/pr-triage/README.md`](skills/pr-triage/README.md) for setup and usage details.
+Written from the position of maintaining a repo that gets more drive-by PRs than you have review hours for. The judgment it encodes is mostly about *ordering and proportion*: read the diff and form your own account of the change before you read the description, because a confident description read first frames every hunk you look at afterward — and that anchoring is how a bad change gets merged. Then spend triage effort in proportion to the effort the PR plausibly cost to produce, cite a file, line, or quote for every finding, and keep the judgment about the work rather than about whether a model was involved. It also refuses to review two things at once: hunks get grouped into concerns, and if the honest one-line summary of the PR needs an "and", the default answer is a split request with a table showing the author how to divide it. Reach for it at the moment you open a PR and feel yourself about to either merge on vibes or sink an afternoon into something that doesn't deserve one. See [`skills/pr-triage/README.md`](skills/pr-triage/README.md) for setup and usage details.
 
 ## guided-reading
 

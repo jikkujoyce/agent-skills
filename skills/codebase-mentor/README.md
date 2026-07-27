@@ -43,9 +43,9 @@ Agent:  Taking ownership, so we'll do the full route. First, the top level,
 You:    cmd is entry points, internal is the real logic, pkg is shared
         helpers. Heart is probably internal.
 
-Agent:  Right on all four — and one thing to file away: `pkg/` here isn't
-        shared helpers, it's the public client other teams import. Changing
-        it breaks them.
+Agent:  Right on three of four — and the miss is the one to file away:
+        `pkg/` here isn't shared helpers, it's the public client other
+        teams import. Changing it breaks them.
 
         Now the spine. An invoice gets generated. `cmd/worker/main.go:34`
         registers a handler. Before you open it — what do you expect the

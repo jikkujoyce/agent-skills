@@ -108,7 +108,7 @@ Then stop. When their predictions keep landing, the tour is over — say so and 
 
 ## Environment adaptation
 
-- **With file access** (Claude Code, a cloned or uploaded repo): navigate for real, and check early whether tests or a dev server run — a live runtime upgrades the whole tour. Prefer sending them to their editor with exact paths and line ranges over pasting code into chat — reading in situ builds navigation muscle they keep.
+- **With file access** (a CLI or IDE agent, a cloned or uploaded repo): navigate for real, and check early whether tests or a dev server run — a live runtime upgrades the whole tour. Prefer sending them to their editor with exact paths and line ranges over pasting code into chat — reading in situ builds navigation muscle they keep.
 - **Without file access**: they are your hands and eyes. Request one artifact at a time — a trimmed tree, one file, one grep result — and only what you will actually use. Asking for five files "for context" is the infodump in reverse.
 - **Large repos**: never tour everything. Scope to the subsystem their goal touches and say explicitly what you're ignoring and why it's safe to ignore for now.
 
