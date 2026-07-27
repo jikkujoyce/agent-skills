@@ -173,30 +173,34 @@ def cmd_stats(args):
 
 def main():
     ap = argparse.ArgumentParser(description="SM-2-lite spaced-repetition scheduler")
-    ap.add_argument("--file", default=DEFAULT_FILE, help="path to progress.json")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p = sub.add_parser("init", help="create a new progress file")
+    # Shared by every subcommand so `--file` works where the docs show it:
+    # after the subcommand (`schedule.py due --file progress.json`).
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--file", default=DEFAULT_FILE, help="path to progress.json")
+
+    p = sub.add_parser("init", parents=[common], help="create a new progress file")
     p.add_argument("--topic", required=True)
     p.add_argument("--force", action="store_true")
     p.set_defaults(fn=cmd_init)
 
-    p = sub.add_parser("add", help="track a new concept (due immediately)")
+    p = sub.add_parser("add", parents=[common], help="track a new concept (due immediately)")
     p.add_argument("concept_id")
     p.add_argument("name")
     p.add_argument("--force", action="store_true")
     p.set_defaults(fn=cmd_add)
 
-    p = sub.add_parser("due", help="list concepts due for review")
+    p = sub.add_parser("due", parents=[common], help="list concepts due for review")
     p.add_argument("--all", action="store_true", help="show every concept, not just due ones")
     p.set_defaults(fn=cmd_due)
 
-    p = sub.add_parser("grade", help="record a review grade (0-5) and reschedule")
+    p = sub.add_parser("grade", parents=[common], help="record a review grade (0-5) and reschedule")
     p.add_argument("concept_id")
     p.add_argument("grade", type=int)
     p.set_defaults(fn=cmd_grade)
 
-    p = sub.add_parser("stats", help="progress overview")
+    p = sub.add_parser("stats", parents=[common], help="progress overview")
     p.set_defaults(fn=cmd_stats)
 
     args = ap.parse_args()
